@@ -1,0 +1,17 @@
+{
+  "name": "viewport-props",
+  "version": "0.0.1",
+  "description": "Add viewport values, such as scrollTop, scrollDirection to your React components props",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "props",
+    "scroll",
+    "resize"
+  ],
+  "author": "hjalle",
+  "license": "ISC"
+}
