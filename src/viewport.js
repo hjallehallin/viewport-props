@@ -36,11 +36,7 @@ class ViewportProvider extends Component {
         const scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, 0)
 
         const atTop = scrollTop <= 0
-          ? 'true'
-          : 'false'
         const atBottom = scrollTop >= scrollHeight - this.state.vh
-          ? 'true'
-          : 'false'
         this.setState({
           scrollTop,
           scrollLeft,
