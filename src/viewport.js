@@ -66,12 +66,14 @@ class ViewportProvider extends Component {
       isResizing = false
       window.requestAnimationFrame(run)
     }
-    window.addEventListener('scroll', event => {
+    const scrollHandler = event => {
       isScrolling = true
-    })
-    window.addEventListener('resize', event => {
+    }
+    const resizeHandler = event => {
       isResizing = true
-    })
+    }
+    window.addEventListener('scroll', scrollHandler)
+    window.addEventListener('resize', resizeHandler)
     window.requestAnimationFrame(run)
   }
 
