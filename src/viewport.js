@@ -75,14 +75,14 @@ class ViewportProvider extends Component {
           fn({
             scrollTop,
             scrollLeft,
-            scrollDelta: scrollTop - oldScrollTop
+            scrollDelta
           })
         })
         if (scrollDelta) {
           eventBus['scrollY'].forEach(fn => {
             fn({
               scrollTop,
-              scrollDelta: scrollTop - oldScrollTop
+              scrollDelta
             })
           })
         }
@@ -90,7 +90,7 @@ class ViewportProvider extends Component {
           eventBus['scrollX'].forEach(fn => {
             fn({
               scrollLeft,
-              scrollXDelta: scrollLeft - oldScrollLeft
+              scrollXDelta
             })
           })
         }
