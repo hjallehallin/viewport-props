@@ -86,10 +86,15 @@ export const withViewport = (mapStateToProps) => WrappedComponent => ({ ...rest 
   return (
     <Consumer>
       {state => {
+        let props
         if (mapStateToProps && typeof mapStateToProps === 'function') {
-          state = mapStateToProps(state)
+          props = mapStateToProps(state)
         }
-        return (<WrappedComponent {...state} {...rest} />)
+
+        if (!mapStateToProps && !props) {
+          throw new Error('No props mapped')
+        }
+        return (<WrappedComponent {...props} {...rest} />)
       }
       }
     </Consumer>
