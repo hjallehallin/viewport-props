@@ -80,7 +80,7 @@ class ViewportProvider extends Component {
   }
 }
 
-export const withViewport = (mapStateToProps) => WrappedComponent => ({ ...rest }) => {
+export const withViewport = (mapStateToProps, subscribe = 'subscribe') => WrappedComponent => ({ ...rest }) => {
   return (
     <Consumer>
       {state => {
@@ -91,6 +91,13 @@ export const withViewport = (mapStateToProps) => WrappedComponent => ({ ...rest 
 
         if (!mapStateToProps && !props) {
           throw new Error('No props mapped')
+        }
+        props[subscribe] = (eventName, callback) => {
+          eventBus[eventName].push(callback)
+          return () => {
+            const i = eventBus[eventName].indexOf(callback)
+            eventBus[eventName].splice(i, 1)
+          }
         }
         return (<WrappedComponent {...props} {...rest} />)
       }
