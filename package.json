@@ -2,9 +2,11 @@
   "name": "viewport-props",
   "version": "0.0.1",
   "description": "Add viewport values, such as scrollTop, scrollDirection to your React components props",
-  "main": "index.js",
+  "main": "lib/viewport.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "babel src --watch -d lib",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -d lib"
   },
   "keywords": [
     "react",
@@ -13,5 +15,26 @@
     "resize"
   ],
   "author": "hjalle",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1"
+  },
+  "peerDependencies": {
+    "react": "^16.6.3"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
+  },
+  "dependencies": {
+    "react": "^16.6.3"
+  }
 }
