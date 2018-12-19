@@ -140,8 +140,16 @@ export const withViewport = (mapStateToProps, subscribe = 'subscribe') => Wrappe
         if (!mapStateToProps && !props) {
           throw new Error('No props mapped')
         }
+
+        /*
+         * Add subscribe prop to WrappedComponent
+         * let the user name their subscribe method to avoid collisions
+         */
         props[subscribe] = (eventName, callback) => {
+          // add listener to eventBus
           eventBus[eventName].push(callback)
+
+          // return a function to call to unsubscribe to event
           return () => {
             const i = eventBus[eventName].indexOf(callback)
             eventBus[eventName].splice(i, 1)
