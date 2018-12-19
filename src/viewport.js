@@ -4,6 +4,13 @@ const {
   Consumer
 } = React.createContext(null)
 
+const eventBus = {
+  'scroll': [],
+  'scrollX': [],
+  'scrollY': [],
+  'scrollReachedEnd': [],
+  'scrollReachedTop': []
+}
 class ViewportProvider extends Component {
   constructor (props) {
     super(props)
@@ -30,13 +37,30 @@ class ViewportProvider extends Component {
     const run = () => {
       if (isScrolling) {
         const oldScrollTop = this.state.scrollTop
+        const oldScrollLeft = this.state.scrollLeft
         const scrollTop = document.body.scrollTop || document.documentElement.scrollTop
         const scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft
         const scrollDirection = oldScrollTop < scrollTop ? 'down' : 'up'
         const scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, 0)
-
+        const scrollDelta = scrollTop - oldScrollTop
+        const scrollXDelta = scrollLeft - oldScrollLeft
         const atTop = scrollTop <= 0
         const atBottom = scrollTop >= scrollHeight - this.state.vh
+        if (atBottom && !this.state.atBottom) {
+          eventBus['scrollReachedEnd'].forEach(fn => {
+            fn({
+              scrollTop
+            })
+          })
+        }
+
+        if (atTop && !this.state.atTop) {
+          eventBus['scrollReachedTop'].forEach(fn => {
+            fn({
+              scrollTop
+            })
+          })
+        }
         this.setState({
           scrollTop,
           scrollLeft,
@@ -44,8 +68,32 @@ class ViewportProvider extends Component {
           atTop,
           atBottom,
           scrollHeight,
-          scrollDelta: scrollTop - oldScrollTop
+          scrollDelta,
+          scrollXDelta
         })
+        eventBus['scroll'].forEach(fn => {
+          fn({
+            scrollTop,
+            scrollLeft,
+            scrollDelta: scrollTop - oldScrollTop
+          })
+        })
+        if (scrollDelta) {
+          eventBus['scrollY'].forEach(fn => {
+            fn({
+              scrollTop,
+              scrollDelta: scrollTop - oldScrollTop
+            })
+          })
+        }
+        if (scrollXDelta) {
+          eventBus['scrollX'].forEach(fn => {
+            fn({
+              scrollLeft,
+              scrollXDelta: scrollLeft - oldScrollLeft
+            })
+          })
+        }
       }
 
       if (isResizing) {
